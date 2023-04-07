@@ -2,7 +2,7 @@
   <div class="about">
     <h1>This is an about page</h1>
 
-    <h3>{{ value }}</h3>
+    <h3>Welcome</h3>
   </div>
   <div>
 
@@ -12,8 +12,7 @@
 
 <script>
 export default {
-  name: 'AboutView',
-  props: ['value']
+  name: 'AboutView'
 }
 
 </script>

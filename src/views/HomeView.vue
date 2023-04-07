@@ -8,18 +8,26 @@
   </div>
 
   <div class="showRoom">
-    <div class="showRoomBook" v-for="book in showBooks" :key="book.id">
-      <router-link to="/about">
+    <div class="showRoomBook" v-for="book in showBooks" :key="book.work_id">
+      <router-link :to="{
+          path: '/book/' + book.work_id,
+          query: {
+            image: book.published_works[0].cover_art_url,
+            name: book.title,
+            author: book.authors[0],
+            series: book.series_name,
+            type: book.book_type,
+            lang: book.language,
+            pages: book.page_count,
+            summary: book.summary
+          }
+        }">
         <img :src="book.published_works[0].cover_art_url" :alt="book.title">
       </router-link>
       <div class="bookMini">
         <h3 class="title">{{ book.title }}</h3>
         <h3 class="author">{{ book.authors[0] }}</h3>
       </div>
-  </div>
-
-  <div class="notShowAbout">
-      <mainFooter value="title" />
     </div>
   </div>
 
@@ -29,13 +37,12 @@
 
 <script>
 import { ref, onBeforeMount } from "vue"
-import mainFooter from "@/components/mainFooter";
 
 export default {
 
   name: 'HomeView',
   components: {
-    mainFooter
+    
   },
 
   setup() {
@@ -54,7 +61,7 @@ export default {
       .then(resp => resp.json())
       .then(data => {
         showBooks.value = data.results
-        console.log(showBooks.value)
+        // console.log(showBooks.value)
       })
       lookText.value = null
     }
@@ -65,7 +72,7 @@ export default {
       .then(res => res.json())
       .then(data => {
         showBooks.value = data.results
-        console.log(showBooks.value)
+        // console.log(showBooks.value)
       })
     })
     
@@ -111,13 +118,13 @@ export default {
 .nav form input[type=text] {
   padding: 10px 15px;
   border: none;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #6b6b6b;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 .nav form input::placeholder {
-  color: #fff;
+  color: #353535;
 }
 .nav form input[type=submit] {
   background-color: #000;
@@ -167,4 +174,25 @@ export default {
 /* .notShowAbout {
   display: none;
 } */
+
+@media(max-width:600px) {
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  form {
+    width: 100%;
+  }
+  .nav form {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav form input[type=text] {
+    width: 90%;
+  }
+}
+
 </style>
